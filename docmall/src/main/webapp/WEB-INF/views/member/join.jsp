@@ -362,7 +362,7 @@
 				data : {receiveMail : $("#mem_email").val()},
 				success : function(result) {
 					if(result == "success"){
-						alert("메일이 발송되어, 인증코드를 확인바랍니다.");
+						alert("메일이 발송되었습니다. 인증코드 확인바랍니다.");
 					}else{
 						alert("메일발송이 실패되어, 메일주소 확인 또는 관리자에게 문의바랍니다.");
 					}
@@ -386,7 +386,7 @@
 						alert("인증이 일치합니다.");
 						isAuthCode = true;
 					}else if(result == "fail") {
-						alert("인증이 불일치합니다. \n 아니면 메일인증요청이 다시해주세요.");
+						alert("인증이 불일치합니다. \n 메일인증을 다시해주세요.");
 						isAuthCode = false;
 					}
 				}

@@ -42,18 +42,18 @@
     
 <%@include file="/WEB-INF/views/include/header.jsp" %>
 
-<h3>아이디및비밀번호 찾기결과</h3>
+<h3 style="text-align: center;">아이디및비밀번호 찾기결과</h3>
 
 <div class="container">
-  <div class="mb-3 text-center row">
+  <div class="mb-3 text-center row" style="text-align: center;">
 	 
 	 <c:if test="${mem_id != null }">
-	 	<p>ID : ${fn:substring(mem_id, 0, 4) }*****</p><br>
-	 전체 아이디는 고객센터로 문의해 주세요.
+	 	<p>ID : ${fn:substring(mem_id, 0, 99) }</p><br>
+	 회원님께서 가입하신 아이디 입니다
 	 </c:if>
 	 
 	 <c:if test="${mail != null }">
-	 	<p>메일 발송을 했습니다.</p><br>
+	 	<p>메일이 발송되었습니다.</p><br>
 	
 	 </c:if>
 	 

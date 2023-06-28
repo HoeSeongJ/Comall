@@ -66,7 +66,7 @@
       	<thead>
       	<tr> 
       		<td rowspan="2">
-      			<img alt="" src=>
+      			<img alt="" src= "/image/3Dgame.jpg">
       		</td>
 		</tr>
       	</thead>
@@ -101,7 +101,7 @@
           </tbody>
           </table>
           <!-- onclick="location.href= 주소그대로 복사하면 링크연결  -->
-        <button type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="location.href='http://localhost:9090/user/product/productDetail?pageNum=1&amount=9&type=&keyword=&cate_code=1001&cate_name=%EC%9D%B8%ED%84%B0%EB%84%B7%26%EC%82%AC%EB%AC%B4%EC%9A%A9&pdt_num=21'">보러가기</button>
+        <button type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="location.href='http://localhost:9090/user/product/productDetail?pageNum=1&amount=9&type=&keyword=&cate_code=1001&cate_name=%EC%9D%B8%ED%84%B0%EB%84%B7%26%EC%82%AC%EB%AC%B4%EC%9A%A9&pdt_num=3'">보러가기</button>
       </div>
     </div>
     

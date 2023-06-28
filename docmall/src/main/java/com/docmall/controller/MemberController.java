@@ -270,7 +270,7 @@ public class MemberController {
 			memService.changePW(mem_id, bCryptPasswordEncoder.encode(temp_mem_pw));
 			
 			//3)메일보내기
-			EmailDTO dto = new EmailDTO("DocMall", "DocMall", mem_email, "DocMall 임시비밀번호입니다.", "");
+			EmailDTO dto = new EmailDTO("COMall", "COMall", mem_email, "COMall 임시비밀번호입니다.", "");
 									
 			try {
 				mailservice.sendMail(dto, temp_mem_pw);

@@ -2,320 +2,340 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!doctype html>
+
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.88.1">
-    <title>DocMall Shopping</title>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 2 | Starter</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+  <!--Admin LTE css파일들  -->
+  <%@include file="/WEB-INF/views/admin/include/plugin1.jsp" %>
+  
+ 
+  
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 
-<meta name="theme-color" content="#563d7c">
+  <!-- Main Header -->
+  <%@include file="/WEB-INF/views/admin/include/header.jsp" %>
+  <!-- Left side column. contains the logo and sidebar -->
+  <%@include file="/WEB-INF/views/admin/include/nav.jsp" %>
 
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Page Header
+        <small>Optional description</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
+      </ol>
+    </section>
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
+    <!-- Main content -->
+    <section class="content container-fluid">
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-	
-   
-    <%@include file="/WEB-INF/views/include/common.jsp" %>
+     <div class="row">
+     	<div class="col-md-12">
+     		<div class="box box-primary">
+     			<div class="box-header">
+     				LIST PRODUCT
+     			</div>
+     			<div class="box-body">
+     				<!-- 1)검색폼 -->
+     				<form id="searchForm" action="/admin/product/productList" method="get">
+					  <select name="type">
+						  <option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : '' }" />>--</option>
+						  <option value="N" <c:out value="${pageMaker.cri.type eq 'N' ? 'selected' : '' }" />>상품명</option>
+						  <option value="C" <c:out value="${pageMaker.cri.type eq 'C' ? 'selected' : '' }" />>제조사</option>
+						  <option value="NC" <c:out value="${pageMaker.cri.type eq 'NC' ? 'selected' : '' }" />>상품명 or 제조사</option>
+					  </select>
+					  <input type="text" name="keyword" value="${pageMaker.cri.keyword }">
+					  <input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }">
+					  <input type="hidden" name="amount" value="${pageMaker.cri.amount }">
+					  <button type="button" id="btnSearch" class="btn btn-link">Search</button>
+  					</form>
+  <table class="table table-hover">
+	  <thead>
+	    <tr>
+	      <th scope="col">번호</th>
+	      <th scope="col">상품명</th>
+	      <th scope="col">가격</th>
+	      <th scope="col">등록일</th>
+	      <th scope="col">판매여부</th>
+	      <th scope="col">수정</th>
+	      <th scope="col">삭제</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <c:forEach items="${productList }" var="productVO">
+	    <!-- BoardVO클래스의 필드명으로 코딩했지만, 호출은 getter메서드가 사용됨. -->
+	    <tr>
+	      <td scope="row"><c:out value="${productVO.pdt_num }" /></td>
+	      <td>
+	      	<img src="/admin/product/displayFile?folderName=${productVO.pdt_img_folder }&fileName=s_${productVO.pdt_img }" 
+	      		alt="" style="width: 80px;height: 80px;" onerror="this.onerror=null; this.src='/image/no_images.png'">
+	      	<a class="move" href="${productVO.pdt_num }"><c:out value="${productVO.pdt_name }" escapeXml="true" /></a>
+	      </td>
+	      <td><c:out value="${productVO.pdt_price }" /></td>	      
+	      <td><fmt:formatDate value="${productVO.pdt_date_sub }" pattern="yyyy-MM-dd hh:mm" /></td>
+	      <td><c:out value="${productVO.pdt_buy }" /></td>
+	      <td><button type="button" name="btnProductEdit" data-pdt_num="${productVO.pdt_num }" class="btn btn-link">Edit</button></td>
+	      <td>
+          <input type="hidden" name="pdt_img_folder" value="${productVO.pdt_img_folder }">
+          <input type="hidden" name="pdt_img" value="${productVO.pdt_img }">
+          <button type="button" name="btnProductDelete" data-pdt_num="${productVO.pdt_num }"  class="btn btn-link">Delete</button>
+        </td>
+	    </tr>
+	    </c:forEach>
+	    
+	  </tbody>
+	</table>
+	<nav aria-label="...">
+	  <ul class="pagination">
+	    <!-- 이전표시 -->
+	    <c:if test="${pageMaker.prev }">
+		    <li class="page-item">
+		      <a class="page-link" href="${pageMaker.startPage - 1 }">Previous</a>
+		    </li>
+	    </c:if>
+	    
+	    <!-- 페이지번호 표시.  1  2  3  4  5 -->
+	    
+	    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num" >
+	    	<li class='page-item ${pageMaker.cri.pageNum == num ? "active": "" }'><a class="page-link" href="${num}">${num}</a></li>
+	    </c:forEach>
+	    <!-- 
+	    <li class="page-item active" aria-current="page">
+	      <span class="page-link">2</span>
+	    </li>
+	    <li class="page-item"><a class="page-link" href="#">3</a></li>
+	     -->
+	    <!-- 다음표시 -->
+	    <c:if test="${pageMaker.next }">
+		    <li class="page-item">
+		      <a class="page-link" href="${pageMaker.endPage + 1 }">Next</a>
+		    </li>
+	    </c:if>
+		
+	  </ul>
+	  <!--1)페이지 번호 클릭시 2)상품수정버튼 클릭시 3)상품삭제버튼 클릭시-->
+		<form id="actionForm" action="/board/list" method="get">
+			<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+			<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+			<input type="hidden" name="type" value="${pageMaker.cri.type}">
+			<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
+		</form>
+	</nav>
+     			</div>
+     		</div>
+     	</div>
+     </div>
 
-  </head>
-  <body>
-    
-<%@include file="/WEB-INF/views/include/header.jsp" %>
-<!-- 1차카테고리 메뉴 -->
-<%@include file="/WEB-INF/views/include/categoryMenu.jsp" %>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-  <h1 class="display-4">${cate_name}</h1>
-  <p class="lead"> 상품목록 </p>
-</div>
+  <!-- Main Footer -->
+<%@include file="/WEB-INF/views/admin/include/footer.jsp" %>
 
-<div class="container">
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane active" id="control-sidebar-home-tab">
+        <h3 class="control-sidebar-heading">Recent Activity</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:;">
+              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
-      <div class="row">
-        <c:forEach items="${productList }" var="productVO">
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg> -->
-            <!-- 상품이미지 -->
-            <a class="move" href="${productVO.pdt_num }">
-            	<img src="/user/product/displayFile?folderName=${productVO.pdt_img_folder }&fileName=s_${productVO.pdt_img }" 
-	      			alt="" class="bd-placeholder-img card-img-top" width="100%" height="225" onerror="this.onerror=null; this.src='/image/no_images.png'">
-	      	</a>
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
 
-            <div class="card-body">
-              <p class="card-text">
-	              ${productVO.pdt_name }<br>
-	              ${productVO.pdt_company }<br>
-	              <fmt:setLocale value="ko_KR"/><fmt:formatNumber type="currency" value="${productVO.pdt_price }" pattern="###,###,###,###"></fmt:formatNumber>
-	              <br>
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" name="btnBuyCart" data-pdt_num="${productVO.pdt_num }" class="btn btn-sm btn-outline-secondary">Buy & Cart</button>                  
-                </div>
-                <small class="text-muted">9 mins</small>
+                <p>Will be 23 on April 24th</p>
               </div>
-            </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+        <h3 class="control-sidebar-heading">Tasks Progress</h3>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:;">
+              <h4 class="control-sidebar-subheading">
+                Custom Template Design
+                <span class="pull-right-container">
+                    <span class="label label-danger pull-right">70%</span>
+                  </span>
+              </h4>
+
+              <div class="progress progress-xxs">
+                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <!-- /.control-sidebar-menu -->
+
+      </div>
+      <!-- /.tab-pane -->
+      <!-- Stats tab content -->
+      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <!-- /.tab-pane -->
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">General Settings</h3>
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Report panel usage
+              <input type="checkbox" class="pull-right" checked>
+            </label>
+
+            <p>
+              Some information about this general settings option
+            </p>
           </div>
-        </div>
-        </c:forEach>
+          <!-- /.form-group -->
+        </form>
       </div>
-      <div class="row">
-      	<div class="col-12">
-      		<nav aria-label="...">
-			  <ul class="pagination">
-			    <!-- 이전표시 -->
-			    <c:if test="${pageMaker.prev }">
-				    <li class="page-item">
-				      <a class="page-link" href="${pageMaker.startPage - 1 }">Previous</a>
-				    </li>
-			    </c:if>
-			    
-			    <!-- 페이지번호 표시.  1  2  3  4  5 -->
-			    
-			    <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="num" >
-			    	<li class='page-item ${pageMaker.cri.pageNum == num ? "active": "" }'><a class="page-link" href="${num}">${num}</a></li>
-			    </c:forEach>
-			    <!-- 
-			    <li class="page-item active" aria-current="page">
-			      <span class="page-link">2</span>
-			    </li>
-			    <li class="page-item"><a class="page-link" href="#">3</a></li>
-			     -->
-			    <!-- 다음표시 -->
-			    <c:if test="${pageMaker.next }">
-				    <li class="page-item">
-				      <a class="page-link" href="${pageMaker.endPage + 1 }">Next</a>
-				    </li>
-			    </c:if>
-				
-			  </ul>
-			  <!--1)페이지 번호 클릭시 2)상품수정버튼 클릭시 3)상품삭제버튼 클릭시-->
-				<form id="actionForm" action="" method="get">
-					<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
-					<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
-					<input type="hidden" name="type" value="${pageMaker.cri.type}">
-					<input type="hidden" name="keyword" value="${pageMaker.cri.keyword}">
-					<input type="hidden" name="cate_code" value="${cate_code}">
-					<input type="hidden" name="cate_name" value="${cate_name}">
-				</form>
-			</nav>
-      	</div>
-      </div>
-      
-      <%@include file="/WEB-INF/views/include/footer.jsp" %>
+      <!-- /.tab-pane -->
     </div>
+  </aside>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+  immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
 
-	<!--  Modal 대화상자 : 상품상세보기 -->
-	<div class="modal fade" id="modal_productDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-lg">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        <div class="row">
-            <div class="col-md-6">
-              <img src="" id="modal_detail_image" 
-	      		alt="" class="bd-placeholder-img card-img-top" width="100%" height="225" onerror="this.onerror=null; this.src='/image/no_images.png'">
-            </div>
-            <div class="col-md-6">
-              <form>
-                <div class="form-group row">
-                  <label for="pdt_name" class="col-form-label col-3">상품이름</label>
-                  <div class="col=9">
-                  	<input type="text" class="form-control" id="pdt_name" readonly>
-                  	<input type="hidden" class="form-control" id="pdt_num">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="pdt_price" class="col-form-label col-3">판매가격</label>
-                  <div class="col=9">
-                  	<input type="text" class="form-control" id="pdt_price" readonly>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="pdt_company" class="col-form-label col-3">제조사</label>
-                  <div class="col=9">
-                  	<input type="text" class="form-control" id="pdt_company" readonly>
-                  </div>
-                </div> 
-                <div class="form-group row">
-                  <label for="pdt_amount" class="col-form-label col-3">수량</label>
-                  <div class="col=9">
-                  	<input type="number" class="form-control" id="pdt_amount" min="1" value="1">
-                  </div>
-                </div>              
-              </form>
-            </div>
-          </div>
-          
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" name="btnModalBuy" class="btn btn-primary">BUY IT NOW</button>
-	        <button type="button" name="btnModalCart" class="btn btn-primary">ADD TO CART</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
+<!-- REQUIRED JS SCRIPTS -->
 
-  <script>
+<!-- jQuery 3, Bootstrap 3.3.7, AdminLTE App -->
+<%@include file="/WEB-INF/views/admin/include/plugin2.jsp" %>
 
-    $(function(){
 
-      $("button[name='btnBuyCart']").on("click", function(){
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. -->
 
-        $("#modal_productDetail").modal('show');
+<script>
 
-        let url = "/user/product/productDetail/" + $(this).data("pdt_num");
-        
-        $.getJSON(url, function(result) {
+  $(document).ready(function(){
 
-          //모달 대화상자에서 상품상세정보 표시
-          //console.log("상품상세정보" + result.pdt_num);
-			
-          //상품코드
-          $("div#modal_productDetail input#pdt_num").val(result.pdt_num);
-          //상품이름
-          $("div#modal_productDetail input#pdt_name").val(result.pdt_name);
-          //판매가격
-          $("div#modal_productDetail input#pdt_price").val(result.pdt_price);
-          //제조사
-          $("div#modal_productDetail input#pdt_company").val(result.pdt_company);
-          //상품이미지
-          // /user/product/displayFile?folderName=${productVO.pdt_img_folder }&fileName=s_${productVO.pdt_img }
-          let url = "/user/product/displayFile?folderName=" + result.pdt_img_folder + "&" + "fileName=" + result.pdt_img;
-          
-          //console.log("이미지파일경로: " + url);
-          $("div#modal_productDetail img#modal_detail_image").attr("src", url);
-          
+    //actionForm 참조 : 1)상품수정 2)상품삭제 3)페이지번호
+    let actionForm = $("#actionForm");
 
-        });
+    //1)상품수정버튼 클릭
+    $("button[name='btnProductEdit']").on("click", function(){
+      //console.log("상품코드: " + $(this).data("pdt_num"));
 
-      });
+      //상품코드를 자식으로 추가
+      actionForm.append("<input type='hidden' name='pdt_num' value='" + $(this).data("pdt_num")   + "'>");
 
-      //장바구니 담기. ajax
-      $("button[name='btnModalCart']").on("click", function(){
+      actionForm.attr("method", "get");
+      actionForm.attr("action", "/admin/product/productModify");
+      actionForm.submit();
+    });
 
-        $.ajax({
-          url : '/user/cart/cart_add',
-          data: { pdt_num : $("div#modal_productDetail input#pdt_num").val(), cart_amount : $("div#modal_productDetail input#pdt_amount").val()},
-          dataType: 'text',
-          beforeSend : function(xmlHttpRequest) {
-        		console.log("ajax xmlHttpRequest check"); 
-        		xmlHttpRequest.setRequestHeader("AJAX", "true");
-          },			
-          success: function(result) {
-            if(result == "success") {
-              alert("장바구니에 추가되었습니다.");
-              if(confirm("장바구니로 이동하시겠습니까?")) {
-                location.href = "/user/cart/cart_list";
-              }
+    // btnProductDelete
+    //2)상품삭제버튼 클릭
+    $("button[name='btnProductDelete']").on("click", function(){
+      //console.log("상품코드: " + $(this).data("pdt_num"));
 
-            }
-          },
-          // ajax호출하여, 스프링에서 respone.sendError(400); 처리시.
-          error: function(xhr, status, error) {
-        	  
-        	  console.log("ajax error");
-        	  console.log("status: " + status);
-        	  //location.href = "/member/login";
-        	 
-        	  if(xhr.status == 400) {
-        		  
-        		  location.href = "/member/login";
-        	  }
-        	  
-          }
-        });
-      });
+      if(!confirm($(this).data("pdt_num") + " 번 상품을 삭제하겠습니까?")) return;
 
-      // 직접구매 버튼 클릭시. non-ajax
-      $("button[name='btnModalBuy']").on("click", function(){
+      //상품코드를 자식으로 추가
+      actionForm.append("<input type='hidden' name='pdt_num' value='" + $(this).data("pdt_num")   + "'>");
+      //날짜폴더추가
+      //delete버튼->td->자식선택자 찾기
+      let pdt_img_folder = $(this).parent().children("input[name='pdt_img_folder']").val();
+      actionForm.append("<input type='hidden' name='pdt_img_folder' value='" + pdt_img_folder   + "'>");
 
-        let pdt_num = $("div#modal_productDetail input#pdt_num").val(); // 구매상품코드
-        let odr_amount = $("div#modal_productDetail input#pdt_amount").val(); // 구매수량
-
-        let url = "/user/order/orderListInfo?pdt_num="+pdt_num+"&odr_amount="+odr_amount+"&type=direct";
-        //console.log("직접구매 주소: " + url);
-        location.href = url;
-        
-      });
-
-      
-      //actionForm 참조 : 1)페이지번호 클릭 2)검색버튼 클릭
-      let actionForm = $("#actionForm");
-      
-    //3)페이지번호 클릭
-      $("ul.pagination li a.page-link").on("click", function(e){
-
-        e.preventDefault(); // <a>태그의 링크기능 무력화
-
-        let pageNum = $(this).attr("href");
-
-        actionForm.find("input[name='pageNum']").val(pageNum);
-
-        //pageNum 필드는 actionForm에 수동으로 작업되어 있어, 추가하는 것이 아니라, 참조하여 값을 변경한다.
-        
-        let url = "/user/product/productList/${cate_code}/" + encodeURIComponent("${cate_name}");
-
-        actionForm.attr("method", "get");
-        actionForm.attr("action", url);
-        actionForm.submit();
-
-       
-      });
-
-      
-      let searchForm = $("#searchForm");
-      //검색버튼 클릭시 pageNum 초기화
-      $("#btnSearch").on("click", function(){
-
-        searchForm.find("input[name='pageNum']").val(1);
-        searchForm.submit();
-      });
-
-      //상품이미지, 상품제목 클릭
-      $("div.container a.move").on("click", function(e){
-        e.preventDefault();
-
-        let pdt_num = $(this).attr("href");
-
-        actionForm.attr("method", "get");
-        actionForm.attr("action", "/user/product/productDetail");
-
-        actionForm.find("input[name='pdt_num']").remove();
-        
-
-        actionForm.append("<input type='hidden' name='pdt_num' value='" + pdt_num + "'>");
-        actionForm.submit();
-
-      });
-      
-    });  //jquery ready이벤트 끝
-
-  </script>  
-  </body>
-</html>
+      let pdt_img = $(this).parent().children("input[name='pdt_img']").val();
+      actionForm.append("<input type='hidden' name='pdt_img' value='" + pdt_img   + "'>");
+   
     
+
+      //파일이름추가
+
+
+      actionForm.attr("method", "get");
+      actionForm.attr("action", "/admin/product/productDelete");
+      actionForm.submit();
+    });
+
+
+    //3)페이지번호 클릭
+    $("ul.pagination li a.page-link").on("click", function(e){
+
+      e.preventDefault(); // <a>태그의 링크기능 무력화
+
+      let pageNum = $(this).attr("href");
+
+      actionForm.find("input[name='pageNum']").val(pageNum);
+
+      //pageNum 필드는 actionForm에 수동으로 작업되어 있어, 추가하는 것이 아니라, 참조하여 값을 변경한다.
+
+      actionForm.attr("method", "get");
+      actionForm.attr("action", "/admin/product/productList");
+      actionForm.submit();
+
+     
+    });
+
+    
+    let searchForm = $("#searchForm");
+    //검색버튼 클릭시 pageNum 초기화
+    $("#btnSearch").on("click", function(){
+
+      searchForm.find("input[name='pageNum']").val(1);
+      searchForm.submit();
+    });
+  });
+
+</script>
+    </body>
+</html>

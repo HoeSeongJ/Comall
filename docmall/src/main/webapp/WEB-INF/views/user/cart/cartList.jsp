@@ -44,7 +44,6 @@
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
   <h1 class="display-4">CART</h1>
-  <!-- <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p> -->
 </div>
 
 <div class="container">
@@ -83,7 +82,7 @@
 					      <td>
 					      	 <input type="hidden" name="pdt_price" value='<c:out value="${cartVO.pdt_price }" />'>
 					      	 <input type="number" class="w-25" name="cart_amount" value='<c:out value="${cartVO.cart_amount }" />'>
-					      	 <button type="button" name="btnCartAmountChange1" data-cart_code="${cartVO.cart_code }" class="btn btn-link">수량변경(Ajax)</button>
+					      	 
 					      	 <button type="button" name="btnCartAmountChange2" data-cart_code="${cartVO.cart_code }" class="btn btn-link">수량변경</button>
 					      </td>
 					      <td><c:out value="${cartVO.mem_point }" /></td>	      
@@ -91,7 +90,7 @@
 					      <td><span class="unitprice"><fmt:formatNumber type="number" maxFractionDigits="3" value="${price }" ></fmt:formatNumber></span></td>
 					      <td>
 					      	<button type="button" name="btnCartDelete" data-cart_code="${cartVO.cart_code }" class="btn btn-link">Delete</button>
-					      	<a href="/user/cart/cart_delete?cart_code=${cartVO.cart_code }">Delete</a>
+					      	
 					      </td>					      
 					    </tr>
 					      <c:set var="sum" value="${sum + price}"></c:set>
@@ -130,7 +129,7 @@
 	
 
   <script>
-
+<!--
     $(function(){
 
       //수량변경(Ajax) 버튼클릭 - 장바구니코드, 변경수량
@@ -177,7 +176,7 @@
 			}
 		});
 	  });
-
+-->
 
 	  	// 이 코드위치로 복사할 것.
 		//수량변경2 버튼클릭 - 장바구니코드, 변경수량
