@@ -66,7 +66,7 @@
       	<thead>
       	<tr> 
       		<td rowspan="2">
-      			<img alt="" src= "/image/3Dgame.jpg">
+      			<img alt="" src=>
       		</td>
 		</tr>
       	</thead>

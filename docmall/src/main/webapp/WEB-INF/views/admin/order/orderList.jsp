@@ -55,8 +55,8 @@ desired effect
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Page Header
-        <small>Optional description</small>
+        주문목록
+        <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -134,7 +134,7 @@ desired effect
 	      
 	      
 	      </td>
-	      <td><button type="button" name="btnOrderDetail" data-odr_code="${orderVO.odr_code }" class="btn btn-link">Detail</button></td>
+	      <td><button type="button" name="btnOrderDetail" data-odr_code="${orderVO.odr_code }" class="btn btn-link">상세</button></td>
 	    </tr>
 	    </c:forEach>
 	    
